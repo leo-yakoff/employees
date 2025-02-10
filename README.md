@@ -1,12 +1,15 @@
-**Установка**
-npm install
+**Установка:**
+<br/>
+`npm install`
 
-**Запуск в режиме разработки**
-**Приложение запустится на** http://localhost:8002
-npm start
+**Запуск в режиме разработки (приложение запустится на http://localhost:8002):**
+<br/>
+`npm start`
 
-**Сборка в режиме разработки**
-npm run dev
+**Сборка в режиме development:**
+<br/>
+`npm run dev`
 
-**Сборка в режиме production**
-npm run build
+**Сборка в режиме production:**
+<br/>
+`npm run build`
