@@ -7,6 +7,7 @@ import "../styles/EmployeeForm.scss";
 import { Fields, PHONE_PLACEHOLDER, PHONE_TEMPLATE, ROLES } from "./consts";
 import { setEmloyeesAction } from "./store";
 import { AppState, Employee, EmployeeAction, Errors } from "./types";
+import { getClassName } from "./utils";
 
 interface Field {
   type: string;
@@ -56,16 +57,19 @@ const EmployeeForm: React.FC = () => {
     }
   }, []);
 
-  const getPadString = (value: number) => value.toString().padStart(2, "0");
+  const getDate = (difference: number) => {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - difference);
+    return date;
+  };
 
-  const today = new Date();
-  const year = today.getFullYear();
-  const minYear = year - 80;
-  const maxYear = year - 14;
-  const month = getPadString(today.getMonth() + 1);
-  const day = getPadString(today.getDate());
-  const minDate = `${minYear}-${month}-${day}`;
-  const maxDate = `${maxYear}-${month}-${day}`;
+  const getDateString = (date: Date) => date.toISOString().substring(0, 10);
+
+  const minDate = getDate(80);
+  const minDateStr = getDateString(minDate);
+
+  const maxDate = getDate(14);
+  const maxDateStr = getDateString(maxDate);
 
   const handleNameChange = (value: string) => {
     setName(value);
@@ -178,6 +182,7 @@ const EmployeeForm: React.FC = () => {
           value={name}
           placeholder="Иван Иванов"
           onChange={(event) => handleNameChange(event.target.value)}
+          className={getClassName(errors.name)}
         />
       ),
     },
@@ -192,6 +197,7 @@ const EmployeeForm: React.FC = () => {
           value={phone}
           placeholder={PHONE_PLACEHOLDER}
           onChange={(event) => handlePhoneChange(event.target.value)}
+          className={getClassName(errors.phone)}
         />
       ),
     },
@@ -204,9 +210,10 @@ const EmployeeForm: React.FC = () => {
           type="date"
           id={getFieldId(Fields.birthday)}
           value={birthday}
-          min={minDate}
-          max={maxDate}
+          min={minDateStr}
+          max={maxDateStr}
           onChange={(event) => handleBirthdayChange(event.target.value)}
+          className={getClassName(errors.birthday)}
         />
       ),
     },
@@ -219,6 +226,7 @@ const EmployeeForm: React.FC = () => {
           id={getFieldId(Fields.role)}
           value={role}
           onChange={(event) => handleRoleChange(event.target.value)}
+          className={getClassName(errors.role)}
         >
           {renderRoleOptions()}
         </select>
@@ -235,12 +243,12 @@ const EmployeeForm: React.FC = () => {
       return "заполните дату рождения!";
     }
 
-    if (birthday < minDate) {
-      return `минимальная дата: ${day}.${month}.${minYear}!`;
+    if (birthday < minDateStr) {
+      return `минимальная дата: ${minDate.toLocaleDateString()}!`;
     }
 
-    if (birthday > maxDate) {
-      return `максимальная дата: ${day}.${month}.${maxYear}!`;
+    if (birthday > maxDateStr) {
+      return `максимальная дата: ${maxDate.toLocaleDateString()}!`;
     }
 
     return "";

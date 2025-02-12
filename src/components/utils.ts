@@ -23,3 +23,6 @@ export const getRoleDisplayValue = (role: string) =>
 
 export const getDateForSort = (date: string) =>
   date.substring(6) + date.substring(3, 5) + date.substring(0, 2);
+
+export const getClassName = (errorMessage: string) =>
+  errorMessage ? "not-valid" : "";
