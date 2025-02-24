@@ -5,7 +5,6 @@ import { Dispatch } from "@reduxjs/toolkit";
 
 import "../styles/App.scss";
 import { ROLES, sortOptions } from "./consts";
-import { setEmloyeesAction } from "./store";
 import { AppState, Employee, EmployeeAction, Filters } from "./types";
 import { getEmployees, getDateForSort, getRoleDisplayValue } from "./utils";
 
@@ -50,13 +49,10 @@ const App: React.FC = () => {
   const resetSorting = () => setEmployees(filterEmployees(allEmployees));
 
   React.useEffect(() => {
-    !allEmployees.length &&
-      getEmployees().then((response) => {
-        if (response.employees) {
-          setEmployees(filterEmployees(response.employees));
-          dispatch(setEmloyeesAction(response.employees));
-        }
-      });
+    const callback = (employeeList: Employee[]) =>
+      setEmployees(filterEmployees(employeeList));
+
+    !allEmployees.length && getEmployees(dispatch, callback);
   }, []);
 
   React.useEffect(

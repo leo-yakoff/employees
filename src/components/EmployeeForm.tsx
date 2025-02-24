@@ -7,7 +7,7 @@ import "../styles/EmployeeForm.scss";
 import { Fields, PHONE_PLACEHOLDER, PHONE_TEMPLATE, ROLES } from "./consts";
 import { setEmloyeesAction } from "./store";
 import { AppState, Employee, EmployeeAction, Errors } from "./types";
-import { getClassName } from "./utils";
+import { getClassName, getEmployees } from "./utils";
 
 interface Field {
   type: string;
@@ -37,11 +37,7 @@ const EmployeeForm: React.FC = () => {
 
   const employeeId = params.employeeId ? Number(params.employeeId) : 0;
 
-  React.useEffect(() => {
-    if (!employeeId) {
-      return;
-    }
-
+  const getEmployee = () => {
     const employee = employees.find((elem) => elem.id === employeeId);
     if (employee) {
       setName(employee.name);
@@ -55,7 +51,15 @@ const EmployeeForm: React.FC = () => {
       setRole(employee.role);
       setIsArchive(employee.isArchive);
     }
+  };
+
+  React.useEffect(() => {
+    !employees.length && getEmployees(dispatch);
   }, []);
+
+  React.useEffect(() => {
+    employeeId && employees.length && getEmployee();
+  }, [employees]);
 
   const getDate = (difference: number) => {
     const date = new Date();

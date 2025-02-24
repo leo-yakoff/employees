@@ -1,20 +1,25 @@
+import { Dispatch } from "@reduxjs/toolkit";
+
 import "../employees.json";
 import { ROLES } from "./consts";
-import { Employee } from "./types";
+import { setEmloyeesAction } from "./store";
+import { Employee, EmployeeAction } from "./types";
 
-export const getEmployees = async (): Promise<{
-  error?: string;
-  employees?: Employee[];
-}> => {
+export const getEmployees = async (
+  dispatch: Dispatch<EmployeeAction>,
+  callback?: (employeeList: Employee[]) => void
+) => {
   try {
     const response = await fetch("/employees.json");
     if (!response.ok) {
-      return { error: `Response status: ${response.status}` };
+      console.error(`Response status: ${response.status}`);
+      return;
     }
-    const json = await response.json();
-    return { employees: json };
+    const employees = await response.json();
+    callback?.(employees);
+    dispatch(setEmloyeesAction(employees));
   } catch (error) {
-    return { error: error.message };
+    console.error(error.message);
   }
 };
 
