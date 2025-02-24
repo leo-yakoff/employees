@@ -1,8 +1,7 @@
 {
   "name": "employees",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Приложение для просмотра и редактирования данных сотрудников компании",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --mode development",

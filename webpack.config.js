@@ -6,6 +6,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, "dist"),
     filename: "index.js",
+    publicPath: "/",
   },
   module: {
     rules: [
@@ -41,5 +42,6 @@ module.exports = {
   devServer: {
     watchFiles: path.join(__dirname, "src"),
     port: 8002,
+    historyApiFallback: true,
   },
 };
