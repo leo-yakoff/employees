@@ -1,6 +1,6 @@
 {
   "name": "employees",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Приложение для просмотра и редактирования данных сотрудников компании",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -112,7 +112,7 @@ const App: React.FC = () => {
     <>
       <header>
         <h1>Сотрудники компании</h1>
-        <section className="sort-container flex">
+        <section className="sort-container">
           <label htmlFor="sort">Сортировка:</label>
           <select
             id="sort"
@@ -122,12 +122,12 @@ const App: React.FC = () => {
             {renderSortOptions}
           </select>
         </section>
-        <section className="filter-container flex">
+        <section className="filter-container">
           <fieldset>
             <legend>Фильтры</legend>
 
-            <div className="filters flex">
-              <div className="filter-role flex">
+            <div className="filters">
+              <div className="filter-role">
                 <label htmlFor="filter-role">Должность:</label>
                 <select
                   id="filter-role"
@@ -140,7 +140,7 @@ const App: React.FC = () => {
                 </select>
               </div>
 
-              <div className="filter-archive flex">
+              <div className="filter-archive">
                 <input
                   type="checkbox"
                   id="filter-archive"
@@ -154,11 +154,11 @@ const App: React.FC = () => {
             </div>
           </fieldset>
         </section>
-        <section className="add-employee flex">
+        <section className="add-employee">
           <Link to="/employee">Добавить сотрудника</Link>
         </section>
       </header>
-      <main role="main" className="main-container flex">
+      <main role="main" className="main-container">
         <table>
           <thead>
             <tr>

@@ -1,30 +1,41 @@
 $table-border: 1px solid bisque;
 
+@mixin margin-bottom-1 {
+  margin-bottom: 1rem;
+}
+
 h1 {
   text-align: center;
 }
 
-.flex {
+.main-container {
   display: flex;
   justify-content: center;
 }
 
+.filter-role {
+  @extend .main-container;
+  column-gap: 0.5rem;
+}
+
 .sort-container,
 .filter-container {
-  column-gap: 0.5rem;
-  margin-bottom: 1rem;
+  @extend .filter-role;
+  @include margin-bottom-1;
 }
 
 .filters {
+  @extend .main-container;
   column-gap: 1rem;
 }
 
-.filter-role {
-  column-gap: 0.5rem;
+.filter-archive {
+  @extend .main-container;
 }
 
 .add-employee {
-  margin-bottom: 1rem;
+  @extend .main-container;
+  @include margin-bottom-1;
 }
 
 table {

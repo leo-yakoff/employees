@@ -4,13 +4,13 @@ import { useNavigate, useParams } from "react-router";
 import { Dispatch } from "@reduxjs/toolkit";
 
 import "../styles/EmployeeForm.scss";
+import Input from "./Input";
 import { Fields, PHONE_PLACEHOLDER, PHONE_TEMPLATE, ROLES } from "./consts";
 import { setEmloyeesAction } from "./store";
 import { AppState, Employee, EmployeeAction, Errors } from "./types";
-import { getClassName, getEmployees } from "./utils";
+import { getClassName, getEmployees, getFieldId } from "./utils";
 
 interface Field {
-  type: string;
   label: string;
   error: string;
   tag: React.JSX.Element;
@@ -156,10 +156,9 @@ const EmployeeForm: React.FC = () => {
     return roles;
   };
 
-  const getFieldId = (type: string) => `employee-${type}`;
-
-  const getContainer = (field: Field) => {
-    const id = getFieldId(field.type);
+  const getContainer = (key: string) => {
+    const field = fieldList[key];
+    const id = getFieldId(key);
 
     return (
       <>
@@ -174,55 +173,51 @@ const EmployeeForm: React.FC = () => {
     );
   };
 
-  const fieldList = {
+  const fieldList: { [key: string]: Field } = {
     name: {
-      type: Fields.name,
       label: "Имя:",
       error: errors.name,
       tag: (
-        <input
+        <Input
           type="text"
-          id={getFieldId(Fields.name)}
+          fieldName={Fields.name}
           value={name}
           placeholder="Иван Иванов"
           onChange={(event) => handleNameChange(event.target.value)}
-          className={getClassName(errors.name)}
+          errorMessage={errors.name}
         />
       ),
     },
     phone: {
-      type: Fields.phone,
       label: "Телефон:",
       error: errors.phone,
       tag: (
-        <input
+        <Input
           type="tel"
-          id={getFieldId(Fields.phone)}
+          fieldName={Fields.phone}
           value={phone}
           placeholder={PHONE_PLACEHOLDER}
           onChange={(event) => handlePhoneChange(event.target.value)}
-          className={getClassName(errors.phone)}
+          errorMessage={errors.phone}
         />
       ),
     },
     birthday: {
-      type: Fields.birthday,
       label: "Дата рождения:",
       error: errors.birthday,
       tag: (
-        <input
+        <Input
           type="date"
-          id={getFieldId(Fields.birthday)}
+          fieldName={Fields.birthday}
           value={birthday}
           min={minDateStr}
           max={maxDateStr}
           onChange={(event) => handleBirthdayChange(event.target.value)}
-          className={getClassName(errors.birthday)}
+          errorMessage={errors.birthday}
         />
       ),
     },
     role: {
-      type: Fields.role,
       label: "Должность:",
       error: errors.role,
       tag: (
@@ -317,12 +312,12 @@ const EmployeeForm: React.FC = () => {
         <h1>Сотрудник компании</h1>
       </header>
       <main className="employee">
-        {getContainer(fieldList.name)}
-        {getContainer(fieldList.phone)}
-        {getContainer(fieldList.birthday)}
-        {getContainer(fieldList.role)}
+        {getContainer(Fields.name)}
+        {getContainer(Fields.phone)}
+        {getContainer(Fields.birthday)}
+        {getContainer(Fields.role)}
 
-        <div className="employee-archive flex">
+        <div className="employee-archive">
           <input
             type="checkbox"
             id="employee-archive"
@@ -332,7 +327,7 @@ const EmployeeForm: React.FC = () => {
           <label htmlFor="employee-archive">в архиве</label>
         </div>
       </main>
-      <footer className="flex">
+      <footer>
         <button onClick={handleSave}>Сохранить</button>
         <button onClick={goHome}>Отмена</button>
       </footer>

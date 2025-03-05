@@ -31,3 +31,5 @@ export const getDateForSort = (date: string) =>
 
 export const getClassName = (errorMessage: string) =>
   errorMessage ? "not-valid" : "";
+
+export const getFieldId = (type: string) => `employee-${type}`;
